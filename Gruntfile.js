@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     watch: {
         lint: {
             files: ['src/js/*'],
-            tasks: ['jshint']
+            tasks: ['jshint', 'uglify']
           },
         css: {
             files: ['src/css/*'],
@@ -24,6 +24,10 @@ module.exports = function(grunt) {
             filter: 'isFile',
             dest: 'dist/'
         },
+        images: {
+            src: 'src/images/*',
+            dest: 'dist/'
+        }
     },
 
     jshint: {
@@ -36,7 +40,15 @@ module.exports = function(grunt) {
                  'dist/src/css/style.min.css': ['src/css/normalize.css', 'src/css/grid.css', 'src/css/style.css']
              }
          }
-     }
+     },
+
+     uglify: {
+        js: {
+            files: {
+                'dist/src/js/scripts.min.js': ['src/js/jquery.easing.1.3.js', 'src/js/jquery.stellar.min.js','src/js/waypoints.min.js', 'src/js/scripts.js']
+            }
+        }
+    }
   });
 
   // Load the tasks
@@ -45,9 +57,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Register all those tasks
   grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('default', ['copy','cssmin']);
+  grunt.registerTask('default', ['copy','cssmin', 'uglify']);
 
 };
